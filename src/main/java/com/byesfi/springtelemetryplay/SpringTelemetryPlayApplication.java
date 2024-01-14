@@ -25,6 +25,6 @@ public class SpringTelemetryPlayApplication {
 		return List.of(new Order(1L, 33L, ZonedDateTime.now(),  BigDecimal.valueOf(150L)));
 	}
 
-	record Order(Long id, Long customerId, ZonedDateTime orderDate, BigDecimal totalAmount){}
+	public record Order(Long id, Long customerId, ZonedDateTime orderDate, BigDecimal totalAmount){}
 
 }
