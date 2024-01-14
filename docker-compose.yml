@@ -3,8 +3,20 @@ services:
   spring-telemetry-play:
     build: ./
     environment:
-      - OTEL_TRACES_EXPORTER=logging
-      - OTEL_METRICS_EXPORTER=logging
-      - OTEL_LOGS_EXPORTER=logging
+      OTEL_TRACES_EXPORTER: "logging"
+      OTEL_METRICS_EXPORTER: "logging"
+      OTEL_LOGS_EXPORTER: "logging"
     ports:
       - "8080:8080"
+    depends_on:
+      - postgres
+  postgres:
+    container_name: postgres
+    image: postgres:latest
+    restart: always
+    environment:
+      POSTGRES_DB: telemetry-play
+      POSTGRES_USER: byesfi
+      POSTGRES_PASSWORD: password
+    ports:
+      - "5432:5432"
