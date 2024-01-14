@@ -1,4 +1,6 @@
 spring:
+  application:
+    name: spring-telemetry-play
   datasource:
     driver-class-name: org.postgresql.Driver
     url: jdbc:postgresql://postgres:5432/telemetry-play
@@ -17,3 +19,4 @@ spring:
       hibernate:
         format_sql: true
         default_schema: orders
+
