@@ -3,13 +3,15 @@ services:
   spring-telemetry-play:
     build: ./
     environment:
-      OTEL_TRACES_EXPORTER: "logging"
+      OTEL_TRACES_EXPORTER: "jaeger"
+      OTEL_EXPORTER_JAEGER_ENDPOINT: "http://jaeger:14250"
       OTEL_METRICS_EXPORTER: "logging"
       OTEL_LOGS_EXPORTER: "logging"
     ports:
       - "8080:8080"
     depends_on:
       - postgres
+      - jaeger
   postgres:
     container_name: postgres
     image: postgres:latest
@@ -20,3 +22,12 @@ services:
       POSTGRES_PASSWORD: password
     ports:
       - "5432:5432"
+  jaeger:
+    container_name: jaeger
+    image: jaegertracing/all-in-one:latest
+    environment:
+      COLLECTOR_OTLP_ENABLED: true
+    restart: always
+    ports:
+      - "16686:16686"
+      - "14250"
