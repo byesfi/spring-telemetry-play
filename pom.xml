@@ -15,7 +15,7 @@
 	<description>A Spring Boot observability playground with OpenTelemetry integration for capturing metrics, logs,
 		and traces. Export data to Prometheus, Zipkin, Jaeger, Tempo, Loki, and Grafana.</description>
 	<properties>
-		<java.version>21</java.version>
+		<java.version>17</java.version>
 		<opentelemetry-agent.version>2.0.0</opentelemetry-agent.version>
 	</properties>
 	<dependencies>
@@ -66,12 +66,35 @@
 									<artifactId>opentelemetry-javaagent</artifactId>
 									<version>${opentelemetry-agent.version}</version>
 									<type>jar</type>
-									<destFileName>optel-agent.jar</destFileName>
+									<destFileName>otel-agent.jar</destFileName>
 								</artifactItem>
 							</artifactItems>
 						</configuration>
 					</execution>
 				</executions>
+			</plugin>
+			<plugin>
+				<groupId>com.google.cloud.tools</groupId>
+				<artifactId>jib-maven-plugin</artifactId>
+				<version>3.4.0</version>
+				<configuration>
+					<extraDirectories>
+						<paths>
+							<path>
+								<from>${project.build.directory}/agent</from>
+								<into>/agent</into>
+							</path>
+						</paths>
+					</extraDirectories>
+					<to>
+						<image>spring-telemetry-play</image>
+					</to>
+					<container>
+						<jvmFlags>
+							<jvmFlag>-javaagent:/agent/otel-agent.jar</jvmFlag>
+						</jvmFlags>
+					</container>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>

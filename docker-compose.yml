@@ -1,7 +1,8 @@
 version: '3'
 services:
   spring-telemetry-play:
-    build: ./
+    container_name: spring-telemetry-play
+    image: spring-telemetry-play:latest
     environment:
       OTEL_TRACES_EXPORTER: "jaeger"
       OTEL_EXPORTER_JAEGER_ENDPOINT: "http://jaeger:14250"
