@@ -16,6 +16,7 @@
 		and traces. Export data to Prometheus, Zipkin, Jaeger, Tempo, Loki, and Grafana.</description>
 	<properties>
 		<java.version>21</java.version>
+		<opentelemetry-agent.version>2.0.0</opentelemetry-agent.version>
 	</properties>
 	<dependencies>
 <!--		<dependency>
@@ -44,6 +45,33 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+			<!-- Copy opentelemetry-javaagent dependency to agent directory-->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-dependency-plugin</artifactId>
+				<version>3.6.1</version>
+				<executions>
+					<execution>
+						<id>copy-dependency</id>
+						<phase>prepare-package</phase>
+						<goals>
+							<goal>copy</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>${project.build.directory}/agent</outputDirectory>
+							<artifactItems>
+								<artifactItem>
+									<groupId>io.opentelemetry.javaagent</groupId>
+									<artifactId>opentelemetry-javaagent</artifactId>
+									<version>${opentelemetry-agent.version}</version>
+									<type>jar</type>
+									<destFileName>optel-agent.jar</destFileName>
+								</artifactItem>
+							</artifactItems>
+						</configuration>
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
 	</build>
