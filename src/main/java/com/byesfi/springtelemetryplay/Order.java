@@ -20,6 +20,13 @@ public class Order {
     public Order() {
     }
 
+    public Order(Long id, Long customerId, ZonedDateTime orderDate, BigDecimal totalAmount) {
+        this.id = id;
+        this.customerId = customerId;
+        this.orderDate = orderDate;
+        this.totalAmount = totalAmount;
+    }
+
     public Long getId() {
         return id;
     }
