@@ -54,3 +54,13 @@ services:
       - '9090:9090'
     depends_on:
       - stp
+  grafana:
+    container_name: grafana
+    image: grafana/grafana
+    volumes:
+      - ./docker/grafana/grafana-datasources.yml:/etc/grafana/provisioning/datasources/datasources.yml
+    restart: always
+    ports:
+      - "3000:3000"
+    depends_on:
+      - prometheus
