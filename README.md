@@ -7,7 +7,7 @@ Welcome to Spring Telemetry Play, your go-to observability playground for explor
 - Export observability data to popular platforms: Prometheus, Zipkin, Jaeger, Tempo, Loki, and Grafana.
 
 ## Architecture Diagram
-![Architecture Diagram](docs/6-spring-telemetry-play.png)
+![Architecture Diagram](docs/7-spring-telemetry-play.png)
 
 ## Getting Started
 1. Clone the repository.
