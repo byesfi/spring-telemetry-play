@@ -4,6 +4,8 @@ services:
     container_name: stp
     build: ./
     environment:
+      OTEL_SERVICE_NAME: "stp"
+      OTEL_RESOURCE_ATTRIBUTES: "service=stp,env=dev"
       OTEL_METRICS_EXPORTER: "otlp"
       OTEL_EXPORTER_OTLP_METRICS_ENDPOINT: "http://collector:4317"
       OTEL_EXPORTER_OTLP_METRICS_PROTOCOL: "grpc"
