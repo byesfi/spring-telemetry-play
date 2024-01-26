@@ -3,12 +3,43 @@ receivers:
     protocols:
       grpc:
 
+# Read more about processors here: https://opentelemetry.io/docs/collector/configuration/#processors
+#
+# Some processors are recommended in all pipelines:
+# https://github.com/open-telemetry/opentelemetry-collector/tree/main/processor#recommended-processors
+processors:
+  # The batch processor batches telemetry data into larger payloads.
+  # It is necessary for the Datadog traces exporter to work optimally,
+  # and is recommended for any production pipeline.
+  batch:
+    # Datadog APM Intake limit is 3.2MB. Let's make sure the batches do not
+    # go over that.
+    send_batch_max_size: 1000
+    send_batch_size: 100
+    timeout: 10s
+
 exporters:
+  otlp/jaeger: # Jaeger supports OTLP directly. The default port for OTLP/gRPC is 4317
+    endpoint: "http://jaeger:4317"
+    tls:
+      insecure: true
+  otlp/tempo:
+    endpoint: "http://tempo:4317"
+    tls:
+      insecure: true
   loki:
     endpoint: "http://loki:3100/loki/api/v1/push"
+  zipkin:
+    endpoint: "http://zipkin:9411/api/v2/spans"
+    format: proto
 
 service:
   pipelines:
     logs:
       receivers: [otlp]
+      processors: [batch]
       exporters: [loki]
+    traces:
+      receivers: [otlp]
+      processors: [batch]
+      exporters: [otlp/tempo,otlp/jaeger,zipkin]
