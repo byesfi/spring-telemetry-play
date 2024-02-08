@@ -79,6 +79,7 @@ services:
     command:
       - --config.file=/etc/prometheus/prometheus.yml
       - --enable-feature=exemplar-storage
+      - --web.enable-remote-write-receiver
     restart: always
     ports:
       - '9090:9090'
